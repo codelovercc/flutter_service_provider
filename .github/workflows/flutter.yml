@@ -14,10 +14,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        sdk: [ stable, 3.27.1 ]
 
     steps:
       - uses: actions/checkout@v4
@@ -26,7 +22,8 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: ${{ matrix.sdk }}
+          flutter-version-file: pubspec.yaml
+      - run: flutter --version
 
       - name: Install dependencies
         run: flutter pub get
