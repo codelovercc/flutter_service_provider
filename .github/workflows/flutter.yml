@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Dart
+name: Flutter
 
 on:
   push:
@@ -17,18 +17,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sdk: [ stable, 3.6.0 ]
+        sdk: [ stable, 3.27.1 ]
 
     steps:
       - uses: actions/checkout@v4
 
-      # Note: This workflow uses the latest stable version of the Dart SDK.
-      # You can specify other versions if desired, see documentation here:
-      # https://github.com/dart-lang/setup-dart/blob/main/README.md
-      # - uses: dart-lang/setup-dart@v1
-      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          sdk: ${{ matrix.sdk }}
+          channel: stable
+          flutter-version: ${{ matrix.sdk }}
 
       - name: Install dependencies
         run: flutter pub get
@@ -46,4 +44,8 @@ jobs:
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
       - name: Run tests
-        run: dart test
+        run: flutter test
+      - name: Run example tests
+        run: (cd ./example && flutter test)
+      - name: Build example
+        run: (cd ./example && flutter build apk)
