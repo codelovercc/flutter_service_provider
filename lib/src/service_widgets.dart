@@ -33,16 +33,41 @@ typedef ProviderWidgetBuilder = Widget Function(BuildContext context, IServicePr
 /// [T] rarely used in most applications, most applications only use a single [Services] widget at the top, in this case, there is no need to specify [T].
 class Services<T> extends StatefulWidget {
   /// Config the [ServiceCollection]
-  final void Function(ServiceCollection services) _servicesConfig;
+  final void Function(ServiceCollection services)? _servicesConfig;
 
   /// Child widget builder with [IServiceProvider]
-  final ProviderWidgetBuilder builder;
+  final ProviderWidgetBuilder _builder;
 
-  const Services({
+  final ServiceProvider? _provider;
+
+  const Services._({
     super.key,
+    void Function(ServiceCollection services)? serviceConfig,
+    required ProviderWidgetBuilder builder,
+    ServiceProvider? provider,
+  })  : _builder = builder,
+        _servicesConfig = serviceConfig,
+        _provider = provider;
+
+  /// Construct from [serviceConfig]
+  ///
+  /// - [builder] Child widget builder with [IServiceProvider]
+  const Services({
+    Key? key,
     required void Function(ServiceCollection services) serviceConfig,
-    required this.builder,
-  }) : _servicesConfig = serviceConfig;
+    required ProviderWidgetBuilder builder,
+  }) : this._(key: key, serviceConfig: serviceConfig, builder: builder);
+
+  /// Construct from an existing [ServiceProvider]
+  ///
+  /// - [builder] Child widget builder with [IServiceProvider]
+  ///
+  /// This is useful while you want to do something asynchronous after the [ServiceProvider] has been built.
+  const Services.fromServiceProvider({
+    Key? key,
+    required ServiceProvider provider,
+    required ProviderWidgetBuilder builder,
+  }) : this._(key: key, builder: builder, provider: provider);
 
   @override
   State<Services<T>> createState() => _ServicesState<T>();
@@ -81,10 +106,14 @@ class _ServicesState<T> extends State<Services<T>> {
 
   @override
   void initState() {
-    final services = ServiceCollection();
-    widget._servicesConfig(services);
-    rootProvider = services.buildServiceProvider();
     super.initState();
+    if (widget._provider != null) {
+      rootProvider = widget._provider!;
+    } else {
+      final services = ServiceCollection();
+      widget._servicesConfig!(services);
+      rootProvider = services.buildServiceProvider();
+    }
   }
 
   @override
@@ -96,7 +125,7 @@ class _ServicesState<T> extends State<Services<T>> {
   @override
   Widget build(BuildContext context) => ServiceInheritedWidget<T>(
         provider: rootProvider,
-        child: widget.builder(context, rootProvider),
+        child: widget._builder(context, rootProvider),
       );
 }
 
@@ -113,9 +142,9 @@ class _ServicesState<T> extends State<Services<T>> {
 /// only care about the nearest [IServiceProvider] that holds by [ServiceInheritedWidget], in this case, there is no need to specify [T].
 class ScopedServices<T> extends StatefulWidget {
   /// Child widget builder with [IServiceProvider]
-  final ProviderWidgetBuilder builder;
+  final ProviderWidgetBuilder _builder;
 
-  const ScopedServices({super.key, required this.builder});
+  const ScopedServices({super.key, required ProviderWidgetBuilder builder}) : _builder = builder;
 
   @override
   State<ScopedServices<T>> createState() => _ScopedServicesState<T>();
@@ -143,7 +172,7 @@ class _ScopedServicesState<T> extends State<ScopedServices<T>> {
   @override
   Widget build(BuildContext context) => ServiceInheritedWidget<T>(
         provider: scope.serviceProvider,
-        child: widget.builder(context, scope.serviceProvider),
+        child: widget._builder(context, scope.serviceProvider),
       );
 }
 
