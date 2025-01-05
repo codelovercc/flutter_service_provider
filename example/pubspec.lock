@@ -53,26 +53,26 @@ packages:
     dependency: "direct main"
     description:
       name: dart_logging_abstraction
-      sha256: a48edce3764b00af12eaecf5a332976b052bce86c186b42763280e0aaf9dfc3d
+      sha256: d042aef561452a6dd28b2580020f2e5a641cb3fe688ddeedd7072d72fd9947da
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "1.1.0"
   dart_service_logger:
     dependency: "direct main"
     description:
       name: dart_service_logger
-      sha256: "4c354b382ec0e819aa47f5e65929bb062b5d7c8425bc832eb9a5c35c97d3d5be"
+      sha256: "53c9cf0e325a39214b6075161a2e2b89ed639b5f4f12f00160aea00b1b5cc71b"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.0"
   dart_service_provider:
     dependency: "direct main"
     description:
       name: dart_service_provider
-      sha256: "07a62bed8093dd9aae3f46d216ec1bd86dd672429ed0198af59a33d8bc266374"
+      sha256: "7e01860a2a341c0f174c9bdf3003bbad637d16ab7b93edc838159a44d82652de"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.7"
+    version: "1.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -100,7 +100,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1"
+    version: "1.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
