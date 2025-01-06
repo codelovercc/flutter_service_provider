@@ -62,6 +62,9 @@ class Services<T> extends StatefulWidget {
   ///
   /// - [builder] Child widget builder with [IServiceProvider]
   ///
+  /// Note that you need to make sure that [provider] is disposed when it's no longer needed,
+  /// this widget will not dispose the external incoming [provider] when it is destroyed.
+  ///
   /// This is useful while you want to do something asynchronous after the [ServiceProvider] has been built.
   const Services.fromServiceProvider({
     Key? key,
@@ -107,18 +110,20 @@ class _ServicesState<T> extends State<Services<T>> {
   @override
   void initState() {
     super.initState();
-    if (widget._provider != null) {
-      rootProvider = widget._provider!;
-    } else {
+    if (widget._provider == null) {
       final services = ServiceCollection();
       widget._servicesConfig!(services);
       rootProvider = services.buildServiceProvider();
+    } else {
+      rootProvider = widget._provider!;
     }
   }
 
   @override
   void dispose() {
-    rootProvider.disposeAsync();
+    if (widget._provider == null) {
+      rootProvider.disposeAsync();
+    }
     super.dispose();
   }
 
