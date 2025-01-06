@@ -1,3 +1,7 @@
+## 1.1.1
+
+- `Services<T>` will not dispose the external incoming `ServiceProvider` when `Services<T>` is destroyed.
+
 ## 1.1.0
 
 - Update dart_service_provider to version 1.1.0
