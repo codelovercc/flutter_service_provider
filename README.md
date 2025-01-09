@@ -48,7 +48,7 @@ Get the `IServiceProvider` instance:
 This is recommended and it's easy to use. Most application should only use a single root service
 provider.
 
-Do not specify the generic type `T` or use the same `T` when your use the widgets above.
+Do not specify the generic type `T` or use the same `T` when you use the widgets above.
 
 ```dart
 Services();
