@@ -1,6 +1,6 @@
 name: flutter_service_provider
 description: "Useful widgets for dart_service_provider package, easy to get services from service provider in the widget tree."
-version: 1.1.1
+version: 1.1.2
 repository: https://github.com/codelovercc/flutter_service_provider
 homepage: https://github.com/codelovercc/flutter_service_provider
 
@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dart_service_provider: ^1.1.0
+  dart_service_provider: ^1.2.0
 
 dev_dependencies:
   flutter_test:
